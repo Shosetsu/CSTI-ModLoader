@@ -61,7 +61,7 @@ public class ModPack
 [SuppressMessage("ReSharper", "InconsistentNaming")]
 public class ModLoader : BaseUnityPlugin
 {
-    public const string ModVersion = "1.1.2";
+    public const string ModVersion = "1.2.0";
 
     public static readonly Dictionary<string, Dictionary<string, string>> AllLuaFiles = new();
     public static event Action<string>? OnLoadMod;
@@ -391,8 +391,8 @@ public class ModLoader : BaseUnityPlugin
         try
         {
             var subclasses = from type in GameSourceAssembly.GetTypes()
-                where type.IsSubclassOf(typeof(ScriptableObject))
-                select type;
+                             where type.IsSubclassOf(typeof(ScriptableObject))
+                             select type;
             foreach (var type in subclasses)
                 ScriptableObjectKeyType.Add(type.Name, type);
         }
@@ -1075,8 +1075,8 @@ public class ModLoader : BaseUnityPlugin
                     if (Directory.Exists(CombinePaths(dir, "ScriptableObject")))
                     {
                         var subclasses = from type in AccessTools.AllTypes()
-                            where type.IsSubclassOf(typeof(ScriptableObject))
-                            select type;
+                                         where type.IsSubclassOf(typeof(ScriptableObject))
+                                         select type;
 
                         foreach (var type in subclasses)
                         {
@@ -1772,7 +1772,7 @@ public class ModLoader : BaseUnityPlugin
             LoadMods(Path.Combine(Paths.BepInExRootPath, "plugins"));
 
             LoadModsFromZip(); // 替换zip库并 #define ZIP_READY
-            LocalizationManager.LoadLanguage();
+
             PostSpriteLoad.BeginCompress = true;
 
             LoadPreData.LoadFromPreLoadData();
