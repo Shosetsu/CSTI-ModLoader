@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using LitJson;
 using ModLoader.ExportUtil;
 using ModLoader.LoaderUtil;
@@ -124,7 +125,7 @@ public class WarpperFunction
         JsonCommonWarpper(obj, new JsonKVProvider(json));
     }
 
-    public static void JsonCommonWarpper(Object? obj, KVProvider json)
+    public static void JsonCommonWarpper(Object? obj, KVProvider json, WarpType warpType = WarpType.NONE)
     {
         if (!json.IsObject) return;
         if (obj == null) return;
@@ -151,8 +152,8 @@ public class WarpperFunction
                 {
                     if (!keyData.IsInt || !json.ContainsKey(key.Substring(0, key.Length - 8) + "WarpData"))
                         continue;
-                    if ((int) keyData == (int) WarpType.REFERENCE ||
-                        (int) keyData == (int) WarpType.ADD_REFERENCE)
+                    if ((int)keyData == (int)WarpType.REFERENCE ||
+                        (int)keyData == (int)WarpType.ADD_REFERENCE)
                     {
                         var field_name = key.Substring(0, key.Length - 8);
                         var (field, _, _) = obj_type.FieldFromCache(field_name, getter_use: false,
@@ -163,7 +164,7 @@ public class WarpperFunction
                         if (fieldWarpData.IsString)
                         {
                             JsonCommonRefWarpper(obj, fieldWarpData.ToString(), field_name,
-                                field_type, (WarpType) (int) keyData);
+                                field_type, (WarpType)(int)keyData);
                         }
                         else if (fieldWarpData.IsArray)
                         {
@@ -203,7 +204,7 @@ public class WarpperFunction
                                     "CommonWarpper REFERENCE Size Error" + field_type.Name);
 
                             JsonCommonRefWarpper(obj, list_data, field_name, sub_field_type,
-                                (WarpType) (int) keyData);
+                                (WarpType)(int)keyData);
                         }
                         else
                         {
@@ -211,7 +212,7 @@ public class WarpperFunction
                                                 field_type.Name);
                         }
                     }
-                    else if ((int) keyData == (int) WarpType.ADD)
+                    else if ((int)keyData == (int)WarpType.ADD)
                     {
                         var field_name = key.Substring(0, key.Length - 8);
                         var (field, getter, setter) = obj_type.FieldFromCache(field_name);
@@ -296,7 +297,7 @@ public class WarpperFunction
                                                 field_type.Name);
                         }
                     }
-                    else if ((int) keyData == (int) WarpType.MODIFY)
+                    else if ((int)keyData == (int)WarpType.MODIFY)
                     {
                         var field_name = key.Substring(0, key.Length - 8);
                         var (field, getter, setter) = obj_type.FieldFromCache(field_name);
@@ -306,7 +307,7 @@ public class WarpperFunction
                         if (fieldWarpData.IsObject)
                         {
                             var target_obj = getter(obj);
-                            JsonCommonWarpper(target_obj, fieldWarpData);
+                            JsonCommonWarpper(target_obj, fieldWarpData, WarpType.MODIFY);
                             setter(obj, target_obj);
                         }
                         else if (fieldWarpData.IsArray)
@@ -320,7 +321,7 @@ public class WarpperFunction
                                     if (fieldWarpData[i].IsObject)
                                     {
                                         var target_obj = instance[i];
-                                        JsonCommonWarpper(target_obj, fieldWarpData[i]);
+                                        JsonCommonWarpper(target_obj, fieldWarpData[i], WarpType.MODIFY);
                                         instance[i] = target_obj;
                                     }
                                     else
@@ -359,7 +360,7 @@ public class WarpperFunction
                                             Debug.LogWarning($"On access {id}::{obj_type}.{field_name} : {e}");
                                         }
 
-                                        JsonCommonWarpper(target_obj, fieldWarpData[i]);
+                                        JsonCommonWarpper(target_obj, fieldWarpData[i], WarpType.MODIFY);
                                         instance?.SetValue(target_obj, i);
                                     }
                                     else
@@ -457,6 +458,79 @@ public class WarpperFunction
                                     setter(obj, array);
                                 }
                             }
+                        }
+                    }
+                    else if (warpType == WarpType.MODIFY)
+                    {
+                        // 尝试查找 Field
+                        FieldInfo fieldInfo = obj_type.GetField(key, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+                        if (fieldInfo != null && fieldInfo.IsInitOnly) // IsInitOnly 检查是否是 readonly
+                        {
+                            LogErrorWithModInfo($"Field '{key}' is readonly and cannot be set.");
+                            continue; // 如果是 readonly 字段，则跳过
+                        }
+
+                        // 尝试查找 Property
+                        PropertyInfo propertyInfo = obj_type.GetProperty(key, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+
+                        if (fieldInfo != null)
+                        {
+                            if (fieldInfo.FieldType == typeof(double) || fieldInfo.FieldType == typeof(float))
+                            {
+
+                                fieldInfo.SetValue(obj, keyData.Double);
+                            }
+                            else if (fieldInfo.FieldType == typeof(int))
+                            {
+
+                                fieldInfo.SetValue(obj, keyData.Int);
+                            }
+                            else if (fieldInfo.FieldType == typeof(bool))
+                            {
+
+                                fieldInfo.SetValue(obj, keyData.Bool);
+                            }
+                            else if (fieldInfo.FieldType == typeof(string))
+                            {
+
+                                fieldInfo.SetValue(obj, keyData.ToString());
+                            }
+                            else
+                            {
+                                LogErrorWithModInfo($"Error setting field '{key}'.");
+                            }
+
+                        }
+                        else if (propertyInfo != null)
+                        {
+                            if (propertyInfo.GetType() == typeof(double) || propertyInfo.GetType() == typeof(float))
+                            {
+
+                                propertyInfo.SetValue(obj, keyData.Double);
+                            }
+                            else if (propertyInfo.GetType() == typeof(int))
+                            {
+
+                                propertyInfo.SetValue(obj, keyData.Int);
+                            }
+                            else if (propertyInfo.GetType() == typeof(bool))
+                            {
+
+                                propertyInfo.SetValue(obj, keyData.Bool);
+                            }
+                            else if (propertyInfo.GetType() == typeof(string))
+                            {
+
+                                propertyInfo.SetValue(obj, keyData.ToString());
+                            }
+                            else
+                            {
+                                LogErrorWithModInfo($"Error setting property '{key}'.");
+                            }
+                        }
+                        else
+                        {
+                            LogErrorWithModInfo($"Warning: Field or property '{key}' not found on object of type {obj_type.Name}.");
                         }
                     }
                 }

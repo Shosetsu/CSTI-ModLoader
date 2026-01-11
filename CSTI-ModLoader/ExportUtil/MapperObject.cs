@@ -17,31 +17,31 @@ public abstract class MapperItem : KVProvider
         switch (this)
         {
             case MapperObject:
-                writer.Write((byte) 1);
+                writer.Write((byte)1);
                 WriteSelf(writer);
                 break;
             case MapperList:
-                writer.Write((byte) 2);
+                writer.Write((byte)2);
                 WriteSelf(writer);
                 break;
             case ObjBool:
-                writer.Write((byte) 3);
+                writer.Write((byte)3);
                 WriteSelf(writer);
                 break;
             case ObjDouble:
-                writer.Write((byte) 4);
+                writer.Write((byte)4);
                 WriteSelf(writer);
                 break;
             case ObjInt:
-                writer.Write((byte) 5);
+                writer.Write((byte)5);
                 WriteSelf(writer);
                 break;
             case ObjLong:
-                writer.Write((byte) 6);
+                writer.Write((byte)6);
                 WriteSelf(writer);
                 break;
             case ObjString:
-                writer.Write((byte) 7);
+                writer.Write((byte)7);
                 WriteSelf(writer);
                 break;
         }
@@ -158,18 +158,19 @@ public abstract class MapperItem : KVProvider
     public override bool IsArray => this is MapperList;
     public override bool IsString => this is ObjString;
     public override bool IsInt => this is ObjInt or ObjLong;
+    public override bool IsDouble => this is ObjDouble;
     public override bool IsBoolean => this is ObjBool;
 
     public override bool ContainsKey(string key)
     {
         if (!IsObject) return false;
         var index = Mapper.GetIndex(key);
-        return ((MapperObject) this).Items.ContainsKey(index);
+        return ((MapperObject)this).Items.ContainsKey(index);
     }
 
     public override IEnumerable<string> Keys
     {
-        get { return !IsObject ? new List<string>().AsReadOnly() : ((MapperObject) this).Items.Keys.Select(i => Mapper.GetKey(i)); }
+        get { return !IsObject ? new List<string>().AsReadOnly() : ((MapperObject)this).Items.Keys.Select(i => Mapper.GetKey(i)); }
     }
 
     public override int Count
@@ -178,10 +179,10 @@ public abstract class MapperItem : KVProvider
         {
             if (IsObject)
             {
-                return ((MapperObject) this).Items.Count;
+                return ((MapperObject)this).Items.Count;
             }
 
-            return IsArray ? ((MapperList) this).Items.Count : 0;
+            return IsArray ? ((MapperList)this).Items.Count : 0;
         }
     }
 
@@ -194,15 +195,17 @@ public abstract class MapperItem : KVProvider
                 case ObjInt i:
                     return i.Val;
                 case ObjLong l:
-                    return (int) l.Val;
+                    return (int)l.Val;
             }
 
             return 0;
         }
     }
 
-    public override bool Bool => IsBoolean && ((ObjBool) this).Val;
-    public override string String => IsString ? Mapper.GetKey(((ObjString) this).Val) : "";
+    public override double Double => IsDouble ? (double)this : 0d;
+
+    public override bool Bool => IsBoolean && ((ObjBool)this).Val;
+    public override string String => IsString ? Mapper.GetKey(((ObjString)this).Val) : "";
 
     public override KVProvider this[string key]
     {
@@ -210,7 +213,7 @@ public abstract class MapperItem : KVProvider
         {
             if (!IsObject) return Null;
             var index = Mapper.GetIndex(key);
-            if (((MapperObject) this).Items.TryGetValue(index, out var item))
+            if (((MapperObject)this).Items.TryGetValue(index, out var item))
             {
                 return item;
             }
@@ -270,7 +273,7 @@ public class ObjInt : MapperItem
     {
         if (data.IsInt || data.IsLong)
         {
-            Val = (int) data;
+            Val = (int)data;
         }
     }
 
@@ -302,7 +305,7 @@ public class ObjLong : MapperItem
     {
         if (data.IsInt || data.IsLong)
         {
-            Val = (long) data;
+            Val = (long)data;
         }
     }
 
@@ -334,7 +337,7 @@ public class ObjBool : MapperItem
     {
         if (data.IsBoolean)
         {
-            Val = (bool) data;
+            Val = (bool)data;
         }
     }
 
@@ -366,7 +369,7 @@ public class ObjString : MapperItem
     {
         if (data.IsString)
         {
-            Val = Mapper.GetIndex((string) data);
+            Val = Mapper.GetIndex((string)data);
         }
     }
 
@@ -376,7 +379,7 @@ public class ObjString : MapperItem
         if (Mapper.GetKey(Val) is { } s)
         {
             stringBuilder.Append(s.Replace("\n", "\\n")
-                .Replace("\"","\\\""));
+                .Replace("\"", "\\\""));
         }
         else
         {
@@ -409,7 +412,7 @@ public class ObjDouble : MapperItem
     {
         if (data.IsDouble)
         {
-            Val = (double) data;
+            Val = (double)data;
         }
     }
 
@@ -489,7 +492,7 @@ public class MapperObject : MapperItem
             var val = Items[i];
             stringBuilder.Append('\"');
             stringBuilder.Append(Mapper.GetKey(i).Replace("\n", "\\n")
-                .Replace("\"","\\\""));
+                .Replace("\"", "\\\""));
             stringBuilder.Append("\":");
             val.ToJson(stringBuilder);
             if (index + 1 < list.Count)

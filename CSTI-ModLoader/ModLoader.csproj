@@ -8,7 +8,7 @@
             <OutputFiles Include="$(OutputPath)LitJSON.dll;$(OutputPath)ModLoader.dll"/>
         </ItemGroup>
         <!--        <Copy SourceFiles="@(OutputFiles)" DestinationFolder="$(OutputPath1)" />-->
-        <Copy SourceFiles="@(OutputFiles)" DestinationFolder="$(OutputPath2)"/>
+        <!-- <Copy SourceFiles="@(OutputFiles)" DestinationFolder="$(OutputPath2)"/> -->
     </Target>
     <PropertyGroup>
         <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -44,7 +44,7 @@
         <WarningLevel>4</WarningLevel>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <!--        <OutputPath1>..\..\my-cstimods\ModLoader</OutputPath1>-->
-        <OutputPath2>D:\SteamLibrary\steamapps\common\Card Survival Fantasy Forest\BepInEx\plugins\ModLoader</OutputPath2>
+        <OutputPath2>E:\SteamLibrary\steamapps\common\Card Survival Fantasy Forest\BepInEx\plugins\ModLoader</OutputPath2>
     </PropertyGroup>
     <ItemGroup>
         <Compile Include="Compatible\CompatibleCheck.cs"/>
@@ -70,7 +70,6 @@
         <Compile Include="ResourceLoadHelper.cs"/>
         <Compile Include="StringHelper.cs"/>
         <Compile Include="UI\MainUI.cs"/>
-        <Compile Include="Updater\AutoUpdate.cs"/>
         <Compile Include="WarpHelper.cs"/>
         <Compile Include="WarpperFunction.cs"/>
         <Compile Include="ModLoader.cs"/>
@@ -78,7 +77,7 @@
     </ItemGroup>
     <ItemGroup>
         <Reference Include="0Harmony">
-            <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Card Survival Fantasy Forest\BepInEx\core\0Harmony.dll</HintPath>
+            <HintPath>E:\SteamLibrary\steamapps\common\Card Survival Fantasy Forest\BepInEx\core\0Harmony.dll</HintPath>
             <Private>False</Private>
         </Reference>
         <Reference Include="AsmResolver, Version=6.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -98,11 +97,11 @@
             <Private>False</Private>
         </Reference>
         <Reference Include="Assembly-CSharp" Publicize="true">
-            <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Card Survival Fantasy Forest\Card Survival - Fantasy Forest_Data\Assembly-CSharp.dll</HintPath>
+            <HintPath>E:\SteamLibrary\steamapps\common\Card Survival Fantasy Forest\Card Survival - Fantasy Forest_Data\Managed\Assembly-CSharp.dll</HintPath>
             <Private>False</Private>
         </Reference>
         <Reference Include="BepInEx">
-            <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Card Survival Fantasy Forest\BepInEx\core\BepInEx.dll</HintPath>
+            <HintPath>E:\SteamLibrary\steamapps\common\Card Survival Fantasy Forest\BepInEx\core\BepInEx.dll</HintPath>
             <Private>False</Private>
         </Reference>
         <Reference Include="BepInEx.AssemblyPublicizer, Version=0.5.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -114,7 +113,7 @@
             <Private>False</Private>
         </Reference>
         <Reference Include="BepInEx.Harmony">
-            <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Card Survival Fantasy Forest\BepInEx\core\BepInEx.Harmony.dll</HintPath>
+            <HintPath>E:\SteamLibrary\steamapps\common\Card Survival Fantasy Forest\BepInEx\core\BepInEx.Harmony.dll</HintPath>
             <Private>False</Private>
         </Reference>
         <!--        <Reference Include="CSTI-ChatTreeLoader">-->
@@ -162,11 +161,11 @@
             <Private>False</Private>
         </Reference>
         <Reference Include="MonoMod.RuntimeDetour">
-            <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Card Survival Fantasy Forest\BepInEx\core\MonoMod.RuntimeDetour.dll</HintPath>
+            <HintPath>E:\SteamLibrary\steamapps\common\Card Survival Fantasy Forest\BepInEx\core\MonoMod.RuntimeDetour.dll</HintPath>
             <Private>False</Private>
         </Reference>
         <Reference Include="MonoMod.Utils">
-            <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Card Survival Fantasy Forest\BepInEx\core\MonoMod.Utils.dll</HintPath>
+            <HintPath>E:\SteamLibrary\steamapps\common\Card Survival Fantasy Forest\BepInEx\core\MonoMod.Utils.dll</HintPath>
             <Private>False</Private>
         </Reference>
         <Reference Include="mscorlib"/>
@@ -292,55 +291,55 @@
             <HintPath>..\packages\System.Xml.ReaderWriter.4.3.0\lib\net46\System.Xml.ReaderWriter.dll</HintPath>
         </Reference>
         <Reference Include="Unity.TextMeshPro">
-            <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Card Survival Fantasy Forest\Card Survival - Fantasy Forest_Data\Managed\Unity.TextMeshPro.dll</HintPath>
+            <HintPath>E:\SteamLibrary\steamapps\common\Card Survival Fantasy Forest\Card Survival - Fantasy Forest_Data\Managed\Unity.TextMeshPro.dll</HintPath>
             <Private>False</Private>
         </Reference>
         <Reference Include="UnityEngine">
-            <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Card Survival Fantasy Forest\Card Survival - Fantasy Forest_Data\Managed\UnityEngine.dll</HintPath>
+            <HintPath>E:\SteamLibrary\steamapps\common\Card Survival Fantasy Forest\Card Survival - Fantasy Forest_Data\Managed\UnityEngine.dll</HintPath>
             <Private>False</Private>
         </Reference>
         <Reference Include="UnityEngine.AssetBundleModule">
-            <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Card Survival Fantasy Forest\Card Survival - Fantasy Forest_Data\Managed\UnityEngine.AssetBundleModule.dll</HintPath>
+            <HintPath>E:\SteamLibrary\steamapps\common\Card Survival Fantasy Forest\Card Survival - Fantasy Forest_Data\Managed\UnityEngine.AssetBundleModule.dll</HintPath>
             <Private>False</Private>
         </Reference>
         <Reference Include="UnityEngine.AudioModule">
-            <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Card Survival Fantasy Forest\Card Survival - Fantasy Forest_Data\Managed\UnityEngine.AudioModule.dll</HintPath>
+            <HintPath>E:\SteamLibrary\steamapps\common\Card Survival Fantasy Forest\Card Survival - Fantasy Forest_Data\Managed\UnityEngine.AudioModule.dll</HintPath>
             <Private>False</Private>
         </Reference>
         <Reference Include="UnityEngine.CoreModule">
-            <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Card Survival Fantasy Forest\Card Survival - Fantasy Forest_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+            <HintPath>E:\SteamLibrary\steamapps\common\Card Survival Fantasy Forest\Card Survival - Fantasy Forest_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
             <Private>False</Private>
         </Reference>
         <Reference Include="UnityEngine.ImageConversionModule">
-            <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Card Survival Fantasy Forest\Card Survival - Fantasy Forest_Data\Managed\UnityEngine.ImageConversionModule.dll</HintPath>
+            <HintPath>E:\SteamLibrary\steamapps\common\Card Survival Fantasy Forest\Card Survival - Fantasy Forest_Data\Managed\UnityEngine.ImageConversionModule.dll</HintPath>
             <Private>False</Private>
         </Reference>
         <Reference Include="UnityEngine.IMGUIModule">
-            <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Card Survival Fantasy Forest\Card Survival - Fantasy Forest_Data\Managed\UnityEngine.IMGUIModule.dll</HintPath>
+            <HintPath>E:\SteamLibrary\steamapps\common\Card Survival Fantasy Forest\Card Survival - Fantasy Forest_Data\Managed\UnityEngine.IMGUIModule.dll</HintPath>
             <Private>False</Private>
         </Reference>
         <Reference Include="UnityEngine.InputLegacyModule">
-            <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Card Survival Fantasy Forest\Card Survival - Fantasy Forest_Data\Managed\UnityEngine.InputLegacyModule.dll</HintPath>
+            <HintPath>E:\SteamLibrary\steamapps\common\Card Survival Fantasy Forest\Card Survival - Fantasy Forest_Data\Managed\UnityEngine.InputLegacyModule.dll</HintPath>
             <Private>False</Private>
         </Reference>
         <Reference Include="UnityEngine.JSONSerializeModule">
-            <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Card Survival Fantasy Forest\Card Survival - Fantasy Forest_Data\Managed\UnityEngine.JSONSerializeModule.dll</HintPath>
+            <HintPath>E:\SteamLibrary\steamapps\common\Card Survival Fantasy Forest\Card Survival - Fantasy Forest_Data\Managed\UnityEngine.JSONSerializeModule.dll</HintPath>
             <Private>False</Private>
         </Reference>
         <Reference Include="UnityEngine.SpriteMaskModule">
-            <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Card Survival Fantasy Forest\Card Survival - Fantasy Forest_Data\Managed\UnityEngine.SpriteMaskModule.dll</HintPath>
+            <HintPath>E:\SteamLibrary\steamapps\common\Card Survival Fantasy Forest\Card Survival - Fantasy Forest_Data\Managed\UnityEngine.SpriteMaskModule.dll</HintPath>
             <Private>False</Private>
         </Reference>
         <Reference Include="UnityEngine.UI">
-            <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Card Survival Fantasy Forest\Card Survival - Fantasy Forest_Data\Managed\UnityEngine.UI.dll</HintPath>
+            <HintPath>E:\SteamLibrary\steamapps\common\Card Survival Fantasy Forest\Card Survival - Fantasy Forest_Data\Managed\UnityEngine.UI.dll</HintPath>
             <Private>False</Private>
         </Reference>
         <Reference Include="UnityEngine.UIElementsModule">
-            <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Card Survival Fantasy Forest\Card Survival - Fantasy Forest_Data\Managed\UnityEngine.UIElementsModule.dll</HintPath>
+            <HintPath>E:\SteamLibrary\steamapps\common\Card Survival Fantasy Forest\Card Survival - Fantasy Forest_Data\Managed\UnityEngine.UIElementsModule.dll</HintPath>
             <Private>False</Private>
         </Reference>
         <Reference Include="UnityEngine.UIModule">
-            <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Card Survival Fantasy Forest\Card Survival - Fantasy Forest_Data\Managed\UnityEngine.UIModule.dll</HintPath>
+            <HintPath>E:\SteamLibrary\steamapps\common\Card Survival Fantasy Forest\Card Survival - Fantasy Forest_Data\Managed\UnityEngine.UIModule.dll</HintPath>
             <Private>False</Private>
         </Reference>
     </ItemGroup>

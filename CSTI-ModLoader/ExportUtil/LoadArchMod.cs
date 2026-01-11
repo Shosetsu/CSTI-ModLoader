@@ -88,7 +88,7 @@ public static class LoadArchMod
         while (blk != EndFlg)
         {
             LoadModArchBLK(blk, binaryReader, modName, version);
-            blk = binaryReader.ReadString(); 
+            blk = binaryReader.ReadString();
         }
 
         var endTime = DateTime.Now;
@@ -251,11 +251,11 @@ public static class LoadArchMod
     public static void LoadJsonsBLK(BinaryReader reader, string modName)
     {
         var allUniqueIDScriptableTypes = (from type in AccessTools.AllTypes()
-            where type.IsSubclassOf(typeof(UniqueIDScriptable))
-            select type).ToList();
+                                          where type.IsSubclassOf(typeof(UniqueIDScriptable))
+                                          select type).ToList();
         var allScriptableObjectTypes = (from type in AccessTools.AllTypes()
-            where type.IsSubclassOf(typeof(ScriptableObject)) && !type.IsSubclassOf(typeof(UniqueIDScriptable))
-            select type).ToList();
+                                        where type.IsSubclassOf(typeof(ScriptableObject)) && !type.IsSubclassOf(typeof(UniqueIDScriptable))
+                                        select type).ToList();
         var blkCount = reader.ReadInt32();
         for (var i = 0; i < blkCount; i++)
         {
@@ -390,13 +390,13 @@ public static class LoadArchMod
     public static void LoadJsonsBLK_V3(BinaryReader reader, string modName)
     {
         var allUniqueIDScriptableTypes = (from type in AccessTools.AllTypes()
-            where type.IsSubclassOf(typeof(UniqueIDScriptable))
-            select type).ToList();
+                                          where type.IsSubclassOf(typeof(UniqueIDScriptable))
+                                          select type).ToList();
         var allScriptableObjectTypes = (from type in AccessTools.AllTypes()
-            where type.IsSubclassOf(typeof(ScriptableObject))
-            where !type.IsSubclassOf(typeof(UniqueIDScriptable))
-            where type != typeof(UniqueIDScriptable)
-            select type).ToList();
+                                        where type.IsSubclassOf(typeof(ScriptableObject))
+                                        where !type.IsSubclassOf(typeof(UniqueIDScriptable))
+                                        where type != typeof(UniqueIDScriptable)
+                                        select type).ToList();
         var blkCount = reader.ReadInt32();
         for (var i = 0; i < blkCount; i++)
         {

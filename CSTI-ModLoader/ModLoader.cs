@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -18,7 +18,6 @@ using ModLoader.ExportUtil;
 using ModLoader.LoaderUtil;
 using ModLoader.Patchers;
 using ModLoader.UI;
-using ModLoader.Updater;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -27,7 +26,6 @@ using Debug = UnityEngine.Debug;
 namespace ModLoader;
 
 [Serializable]
-[SuppressMessage("ReSharper", "InconsistentNaming")]
 public class ModInfo
 {
     public string Name = "";
@@ -38,7 +36,6 @@ public class ModInfo
 
     public string ModEditorVersion = "";
 }
-
 public class ModPack
 {
     public readonly ModInfo ModInfo;
@@ -56,12 +53,9 @@ public class ModPack
 }
 
 [BepInPlugin("Dop.plugin.CSTI.ModLoader", "ModLoader", ModVersion)]
-// [BepInDependency("zender.LuaActionSupport.LuaSupportRuntime")]
-[SuppressMessage("ReSharper", "CollectionNeverQueried.Global")]
-[SuppressMessage("ReSharper", "InconsistentNaming")]
 public class ModLoader : BaseUnityPlugin
 {
-    public const string ModVersion = "1.2.0";
+    public const string ModVersion = "1.2.2";
 
     public static readonly Dictionary<string, Dictionary<string, string>> AllLuaFiles = new();
     public static event Action<string>? OnLoadMod;
@@ -1067,6 +1061,7 @@ public class ModLoader : BaseUnityPlugin
                 {
                     Debug.LogWarningFormat("{0} Load Resource Custom Audio Error {1}", ModName,
                         ex.Message);
+                    Debug.Log(ex.StackTrace);
                 }
 
                 // Load ScriptableObject
@@ -1771,7 +1766,7 @@ public class ModLoader : BaseUnityPlugin
 
             LoadMods(Path.Combine(Paths.BepInExRootPath, "plugins"));
 
-            LoadModsFromZip(); // 替换zip库并 #define ZIP_READY
+            // LoadModsFromZip(); // 替换zip库并 #define ZIP_READY
 
             PostSpriteLoad.BeginCompress = true;
 

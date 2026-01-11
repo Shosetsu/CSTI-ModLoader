@@ -9,6 +9,7 @@ public class NullKV : KVProvider
     public override bool IsArray { get; }
     public override bool IsString { get; }
     public override bool IsInt { get; }
+    public override bool IsDouble { get; }
     public override bool IsBoolean { get; }
 
     public override string ToJson()
@@ -31,6 +32,7 @@ public class NullKV : KVProvider
     public override int Int { get; }
     public override bool Bool { get; }
     public override string String { get; }
+    public override double Double { get; }
 }
 
 public abstract class KVProvider
@@ -41,6 +43,7 @@ public abstract class KVProvider
     public abstract bool IsString { get; }
     public abstract bool IsInt { get; }
     public abstract bool IsBoolean { get; }
+    public abstract bool IsDouble { get; }
     public abstract string ToJson();
     public abstract bool ContainsKey(string key);
     public abstract IEnumerable<string> Keys { get; }
@@ -54,13 +57,14 @@ public abstract class KVProvider
     {
         return provider.IsInt ? provider.Int : 0;
     }
+    public abstract double Double { get; }
 
     public abstract bool Bool { get; }
     public abstract string String { get; }
 
     public static explicit operator bool(KVProvider provider)
     {
-        return provider is {IsBoolean: true, Bool: true};
+        return provider is { IsBoolean: true, Bool: true };
     }
 
     public static explicit operator string(KVProvider provider)
@@ -84,6 +88,7 @@ public class JsonKVProvider : KVProvider
     public override bool IsString => Data.IsString;
 
     public override bool IsInt => Data.IsInt;
+    public override bool IsDouble => Data.IsDouble;
 
     public override bool IsBoolean => Data.IsBoolean;
 
@@ -105,9 +110,10 @@ public class JsonKVProvider : KVProvider
 
     public override KVProvider this[int index] => new JsonKVProvider(Data[index]);
 
-    public override int Int => Data.IsInt ? (int) Data : 0;
-    public override bool Bool => Data.IsBoolean && (bool) Data;
-    public override string String => Data.IsString ? (string) Data : Data.ToString();
+    public override int Int => Data.IsInt ? (int)Data : 0;
+    public override double Double => Data.IsDouble ? (double)Data : 0d;
+    public override bool Bool => Data.IsBoolean && (bool)Data;
+    public override string String => Data.IsString ? (string)Data : Data.ToString();
 
     public override string ToString()
     {
