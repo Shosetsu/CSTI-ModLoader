@@ -55,7 +55,7 @@ public class ModPack
 [BepInPlugin("Dop.plugin.CSTI.ModLoader", "ModLoader", ModVersion)]
 public class ModLoader : BaseUnityPlugin
 {
-    public const string ModVersion = "1.2.2";
+    public const string ModVersion = "1.2.3";
 
     public static readonly Dictionary<string, Dictionary<string, string>> AllLuaFiles = new();
     public static event Action<string>? OnLoadMod;
@@ -1767,6 +1767,9 @@ public class ModLoader : BaseUnityPlugin
             LoadMods(Path.Combine(Paths.BepInExRootPath, "plugins"));
 
             // LoadModsFromZip(); // 替换zip库并 #define ZIP_READY
+
+            LocalizationManager.LoadLanguage();
+            LocalizationManager.LoadNews();
 
             PostSpriteLoad.BeginCompress = true;
 
