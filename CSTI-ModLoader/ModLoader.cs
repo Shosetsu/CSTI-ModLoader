@@ -55,7 +55,7 @@ public class ModPack
 [BepInPlugin("Dop.plugin.CSTI.ModLoader", "ModLoader", ModVersion)]
 public class ModLoader : BaseUnityPlugin
 {
-    public const string ModVersion = "1.2.3";
+    public const string ModVersion = "1.2.4";
 
     public static readonly Dictionary<string, Dictionary<string, string>> AllLuaFiles = new();
     public static event Action<string>? OnLoadMod;
